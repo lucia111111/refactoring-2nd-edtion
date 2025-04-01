@@ -8,6 +8,7 @@ class Refactoring2ndEditionApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("test");
     }
 
 }
