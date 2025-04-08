@@ -13,13 +13,12 @@ public class Statement {
         final NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (var perf : invoice.getPerformances()) {
-            final Play play = plays.get(perf.getPlayId());
-            var thisAmount = amountFor(perf, play);
+            var thisAmount = amountFor(perf, plays);
 
             // 포인트를 적립한다.
             volumeCredits += Math.max(perf.getAudience() - 30, 0);
             // 희극 관객 5명마다 추가 포인트를 제공한다.
-            if ("comedy".equals(play.getType())) {
+            if ("comedy".equals(playFor(plays, perf).getType())) {
                 volumeCredits += Math.floor(perf.getAudience() / 5);
             }
 
@@ -27,7 +26,7 @@ public class Statement {
             result.append(
                     String.format(
                             "  %s: %s원 (%d석)\n",
-                            play.getName(),
+                            playFor(plays, perf).getName(),
                             format.format(thisAmount / 100.0),
                             perf.getAudience()
                     )
@@ -41,27 +40,31 @@ public class Statement {
         return result.toString();
     }
 
+    private Play playFor(Map<String, Play> plays, Performance perf) {
+        return plays.get(perf.getPlayId());
+    }
+
     // 값이 변하지 않는 변수는 매개변수로 전달
-    private int amountFor(Performance perf, Play play) {
-        int result;
-        switch (play.getType()) {
+    private int amountFor(Performance perf, Map<String, Play> plays) {
+        int thisAmount;
+        switch (playFor(plays, perf).getType()) {
             case "tragedy":
-                result = 40000;
+                thisAmount = 40000;
                 if (perf.getAudience() > 30) {
-                    result += 1000 * (perf.getAudience() - 30);
+                    thisAmount += 1000 * (perf.getAudience() - 30);
                 }
                 break;
             case "comedy":
-                result = 30000;
+                thisAmount = 30000;
                 if (perf.getAudience() > 20) {
-                    result += 10000 + 500 * (perf.getAudience() - 20);
+                    thisAmount += 10000 + 500 * (perf.getAudience() - 20);
                 }
-                result += 300 * perf.getAudience();
+                thisAmount += 300 * perf.getAudience();
                 break;
             default:
-                throw new IllegalArgumentException("알 수 없는 장르: " + play.getType());
+                throw new IllegalArgumentException("알 수 없는 장르: " + playFor(plays, perf).getType());
         }
         // 함수 안에서 값이 바뀌는 변수 반환
-        return result;
+        return thisAmount;
     }
 }
