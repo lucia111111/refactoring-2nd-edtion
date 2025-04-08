@@ -43,25 +43,25 @@ public class Statement {
 
     // 값이 변하지 않는 변수는 매개변수로 전달
     private int amountFor(Performance perf, Play play) {
-        int thisAmount;
+        int result;
         switch (play.getType()) {
             case "tragedy":
-                thisAmount = 40000;
+                result = 40000;
                 if (perf.getAudience() > 30) {
-                    thisAmount += 1000 * (perf.getAudience() - 30);
+                    result += 1000 * (perf.getAudience() - 30);
                 }
                 break;
             case "comedy":
-                thisAmount = 30000;
+                result = 30000;
                 if (perf.getAudience() > 20) {
-                    thisAmount += 10000 + 500 * (perf.getAudience() - 20);
+                    result += 10000 + 500 * (perf.getAudience() - 20);
                 }
-                thisAmount += 300 * perf.getAudience();
+                result += 300 * perf.getAudience();
                 break;
             default:
                 throw new IllegalArgumentException("알 수 없는 장르: " + play.getType());
         }
         // 함수 안에서 값이 바뀌는 변수 반환
-        return thisAmount;
+        return result;
     }
 }
