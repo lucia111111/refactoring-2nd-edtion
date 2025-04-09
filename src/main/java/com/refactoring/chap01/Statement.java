@@ -7,6 +7,10 @@ import java.util.Map;
 public class Statement {
 
     public String statement(Invoice invoice, Map<String, Play> plays) {
+        return renderPlainText(invoice, plays);
+    }
+
+    private String renderPlainText(Invoice invoice, Map<String, Play> plays) {
         var result = new StringBuilder("청구 내역 (고객명: " + invoice.getCustomer() + ")\n");
 
         for (var perf : invoice.getPerformances()) {
