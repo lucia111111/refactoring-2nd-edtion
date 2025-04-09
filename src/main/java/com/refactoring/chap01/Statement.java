@@ -7,7 +7,6 @@ import java.util.Map;
 public class Statement {
 
     public String statement(Invoice invoice, Map<String, Play> plays) {
-        var totalAmount = 0;
         var result = new StringBuilder("청구 내역 (고객명: " + invoice.getCustomer() + ")\n");
 
         for (var perf : invoice.getPerformances()) {
@@ -20,21 +19,28 @@ public class Statement {
                             perf.getAudience()
                     )
             );
-            totalAmount += amountFor(perf, plays);
         }
 
-        result.append(String.format("총액: %s원\n", getNumberFormat().format(totalAmount / 100.0)));
+        result.append(String.format("총액: %s원\n", getNumberFormat().format(totalAmount(invoice, plays) / 100.0)));
         result.append(String.format("적립 포인트: %d점\n", totalVolumeCredits(invoice, plays)));
 
         return result.toString();
     }
 
-    private int totalVolumeCredits(Invoice invoice, Map<String, Play> plays) {
-        var volumeCredits = 0;
+    private int totalAmount(Invoice invoice, Map<String, Play> plays) {
+        var result = 0;
         for (var perf : invoice.getPerformances()) {
-            volumeCredits += volumeCreditsFor(plays, perf);
+            result += amountFor(perf, plays);
         }
-        return volumeCredits;
+        return result;
+    }
+
+    private int totalVolumeCredits(Invoice invoice, Map<String, Play> plays) {
+        var result = 0;
+        for (var perf : invoice.getPerformances()) {
+            result += volumeCreditsFor(plays, perf);
+        }
+        return result;
     }
 
     private static NumberFormat getNumberFormat() {
