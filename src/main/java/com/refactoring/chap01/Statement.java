@@ -8,7 +8,6 @@ public class Statement {
 
     public String statement(Invoice invoice, Map<String, Play> plays) {
         var totalAmount = 0;
-        var volumeCredits = 0;
         var result = new StringBuilder("청구 내역 (고객명: " + invoice.getCustomer() + ")\n");
 
         for (var perf : invoice.getPerformances()) {
@@ -24,14 +23,18 @@ public class Statement {
             totalAmount += amountFor(perf, plays);
         }
 
+        result.append(String.format("총액: %s원\n", getNumberFormat().format(totalAmount / 100.0)));
+        result.append(String.format("적립 포인트: %d점\n", totalVolumeCredits(invoice, plays)));
+
+        return result.toString();
+    }
+
+    private int totalVolumeCredits(Invoice invoice, Map<String, Play> plays) {
+        var volumeCredits = 0;
         for (var perf : invoice.getPerformances()) {
             volumeCredits += volumeCreditsFor(plays, perf);
         }
-
-        result.append(String.format("총액: %s원\n", getNumberFormat().format(totalAmount / 100.0)));
-        result.append(String.format("적립 포인트: %d점\n", volumeCredits));
-
-        return result.toString();
+        return volumeCredits;
     }
 
     private static NumberFormat getNumberFormat() {
