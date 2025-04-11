@@ -7,9 +7,12 @@ public class StatementData {
     private Invoice invoice;
     private Map<String, Play> plays;
 
+    private PerformanceCalculator performanceCalculator;
+
     public StatementData(Invoice invoice, Map<String, Play> plays) {
         this.invoice = invoice;
         this.plays = plays;
+        //this.performanceCalculator = new PerformanceCalculator(playFor);
     }
 
     public Invoice getInvoice() {
@@ -41,26 +44,7 @@ public class StatementData {
     }
 
     public int amountFor(Performance perf) {
-        int thisAmount;
-        switch (playFor(perf).getType()) {
-            case "tragedy":
-                thisAmount = 40000;
-                if (perf.getAudience() > 30) {
-                    thisAmount += 1000 * (perf.getAudience() - 30);
-                }
-                break;
-            case "comedy":
-                thisAmount = 30000;
-                if (perf.getAudience() > 20) {
-                    thisAmount += 10000 + 500 * (perf.getAudience() - 20);
-                }
-                thisAmount += 300 * perf.getAudience();
-                break;
-            default:
-                throw new IllegalArgumentException("알 수 없는 장르: " + playFor(perf).getType());
-        }
-        // 함수 안에서 값이 바뀌는 변수 반환
-        return thisAmount;
+        return new PerformanceCalculator(perf, playFor(perf)).amountFor();
     }
 
     public int totalAmount() {
@@ -72,13 +56,7 @@ public class StatementData {
     }
 
     public int volumeCreditsFor(Performance perf) {
-        // 포인트를 적립한다.
-        int result = Math.max(perf.getAudience() - 30, 0);
-        // 희극 관객 5명마다 추가 포인트를 제공한다.
-        if ("comedy".equals(playFor(perf).getType())) {
-            result += Math.floor(perf.getAudience() / 5);
-        }
-        return result;
+        return new PerformanceCalculator(perf, playFor(perf)).volumeCreditsFor();
     }
 
     public int totalVolumeCredits() {
