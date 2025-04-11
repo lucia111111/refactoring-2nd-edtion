@@ -21,72 +21,33 @@ public class Statement {
                     String.format(
                             "  %s: %s원 (%d석)\n",
                             statementData.playFor(perf).getName(),
-                            getNumberFormat().format(amountFor(perf, statementData.getPlays()) / 100.0),
+                            getNumberFormat().format(statementData.amountFor(perf) / 100.0),
                             perf.getAudience()
                     )
             );
         }
 
-        result.append(String.format("총액: %s원\n", getNumberFormat().format(totalAmount(statementData.getInvoice(), statementData.getPlays()) / 100.0)));
-        result.append(String.format("적립 포인트: %d점\n", totalVolumeCredits(statementData.getInvoice(), statementData.getPlays())));
+        result.append(String.format("총액: %s원\n", getNumberFormat().format(statementData.totalAmount() / 100.0)));
+        result.append(String.format("적립 포인트: %d점\n", statementData.totalVolumeCredits()));
         return result.toString();
-    }
-
-    private int totalAmount(Invoice invoice, Map<String, Play> plays) {
-        var result = 0;
-        for (var perf : invoice.getPerformances()) {
-            result += amountFor(perf, plays);
-        }
-        return result;
-    }
-
-    private int totalVolumeCredits(Invoice invoice, Map<String, Play> plays) {
-        var result = 0;
-        for (var perf : invoice.getPerformances()) {
-            result += volumeCreditsFor(plays, perf);
-        }
-        return result;
     }
 
     private static NumberFormat getNumberFormat() {
         return NumberFormat.getCurrencyInstance(Locale.US);
     }
 
-    private int volumeCreditsFor(Map<String, Play> plays, Performance perf) {
-        // 포인트를 적립한다.
-        int result = Math.max(perf.getAudience() - 30, 0);
-        // 희극 관객 5명마다 추가 포인트를 제공한다.
-        if ("comedy".equals(playFor(plays, perf).getType())) {
-            result += Math.floor(perf.getAudience() / 5);
+    private String renderHtml(StatementData statementData) throws Exception {
+        StringBuilder result = new StringBuilder(String.format("<h1> 청구내역 (고객명: %s)\n </h1>", statementData.getCustomer()));
+        result.append("<table> \n");
+        result.append("<tr><th> 연극 </th> <th>좌석 수</th> <th>금액</th>");
+        for (Performance performance : statementData.getPerformances()) {
+            result.append(String.format("<tr><td> %s: </td> <td> $%d </td> <td> %d석 </td></tr>\n",statementData.playFor(performance).getName(), statementData.amountFor(performance) / 100, performance.getAudience()));
         }
-        return result;
+        result.append("</table>\n");
+
+        result.append(String.format("총액: $%d\n", statementData.totalAmount()));
+        result.append(String.format("적립 포인트: %d점", statementData.totalVolumeCredits()));
+        return result.toString();
     }
 
-    private Play playFor(Map<String, Play> plays, Performance perf) {
-        return plays.get(perf.getPlayId());
-    }
-
-    // 값이 변하지 않는 변수는 매개변수로 전달
-    private int amountFor(Performance perf, Map<String, Play> plays) {
-        int thisAmount;
-        switch (playFor(plays, perf).getType()) {
-            case "tragedy":
-                thisAmount = 40000;
-                if (perf.getAudience() > 30) {
-                    thisAmount += 1000 * (perf.getAudience() - 30);
-                }
-                break;
-            case "comedy":
-                thisAmount = 30000;
-                if (perf.getAudience() > 20) {
-                    thisAmount += 10000 + 500 * (perf.getAudience() - 20);
-                }
-                thisAmount += 300 * perf.getAudience();
-                break;
-            default:
-                throw new IllegalArgumentException("알 수 없는 장르: " + playFor(plays, perf).getType());
-        }
-        // 함수 안에서 값이 바뀌는 변수 반환
-        return thisAmount;
-    }
 }
