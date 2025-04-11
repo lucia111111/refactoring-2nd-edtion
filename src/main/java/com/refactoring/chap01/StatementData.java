@@ -36,4 +36,9 @@ public class StatementData {
         return invoice.getPerformances();
     }
 
+    public Play playFor(Performance perf) {
+        return plays.get(perf.getPlayId());
+    }
+
+
 }

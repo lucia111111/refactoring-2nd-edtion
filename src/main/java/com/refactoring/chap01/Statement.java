@@ -20,7 +20,7 @@ public class Statement {
             result.append(
                     String.format(
                             "  %s: %s원 (%d석)\n",
-                            playFor(statementData.getPlays(), perf).getName(),
+                            statementData.playFor(perf).getName(),
                             getNumberFormat().format(amountFor(perf, statementData.getPlays()) / 100.0),
                             perf.getAudience()
                     )
