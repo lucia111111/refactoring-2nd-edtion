@@ -6,13 +6,13 @@ import java.util.Map;
 
 public class Statement {
 
-    public String statement(Invoice invoice, Map<String, Play> plays) {
+    public String statement(Invoice invoice, Map<String, Play> plays) throws Exception {
         StatementData statementData = new StatementData(invoice, plays);
         // 데이터만 처리
         return renderPlainText(statementData);
     }
 
-    private String renderPlainText(StatementData statementData) {
+    private String renderPlainText(StatementData statementData) throws Exception {
         var result = new StringBuilder("청구 내역 (고객명: " + statementData.getCustomer() + ")\n");
 
         for (var perf : statementData.getPerformances()) {

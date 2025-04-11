@@ -7,12 +7,12 @@ public class StatementData {
     private Invoice invoice;
     private Map<String, Play> plays;
 
-    private PerformanceCalculator performanceCalculator;
+    private PerformanceCalculatorFactory performanceCalculatorFactory;
 
     public StatementData(Invoice invoice, Map<String, Play> plays) {
         this.invoice = invoice;
         this.plays = plays;
-        //this.performanceCalculator = new PerformanceCalculator(playFor);
+        this.performanceCalculatorFactory = new PerformanceCalculatorFactory();
     }
 
     public Invoice getInvoice() {
@@ -43,11 +43,11 @@ public class StatementData {
         return plays.get(perf.getPlayId());
     }
 
-    public int amountFor(Performance perf) {
-        return new PerformanceCalculator(perf, playFor(perf)).amountFor();
+    public int amountFor(Performance perf) throws Exception {
+        return performanceCalculatorFactory.createPerformanceCalculator(perf, playFor(perf)).amountFor();
     }
 
-    public int totalAmount() {
+    public int totalAmount() throws Exception {
         var result = 0;
         for (var perf : getPerformances()) {
             result += amountFor(perf);
@@ -55,11 +55,11 @@ public class StatementData {
         return result;
     }
 
-    public int volumeCreditsFor(Performance perf) {
-        return new PerformanceCalculator(perf, playFor(perf)).volumeCreditsFor();
+    public int volumeCreditsFor(Performance perf) throws Exception {
+        return performanceCalculatorFactory.createPerformanceCalculator(perf, playFor(perf)).volumeCreditsFor();
     }
 
-    public int totalVolumeCredits() {
+    public int totalVolumeCredits() throws Exception {
         var result = 0;
         for (var perf : getPerformances()) {
             result += volumeCreditsFor(perf);
