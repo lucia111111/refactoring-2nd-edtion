@@ -11,21 +11,26 @@ import java.time.LocalDateTime;
 public class After {
 
     public String printOwing(Invoice invoice) throws Exception{
-        int outstanding = 0;
         StringBuilder result = new StringBuilder();
 
         printBanner(result);
 
-        // 미해결 채무 (outstanding) 을 계산한다.
-        for (Order o : invoice.getOrders()) {
-            outstanding += o.amount;
-        }
+        int outstanding = calculateOutstanding(invoice);
 
         Invoice addDueDateInvoice = recordDueDate(invoice);
 
         printDetails(addDueDateInvoice, result, outstanding);
 
         return result.toString();
+    }
+
+    private int calculateOutstanding(Invoice invoice) {
+        // 미해결 채무 (outstanding) 을 계산한다.
+        int result = 0;
+        for (Order o : invoice.getOrders()) {
+            result += o.amount;
+        }
+        return result;
     }
 
     private Invoice recordDueDate(Invoice invoice) throws Exception {
