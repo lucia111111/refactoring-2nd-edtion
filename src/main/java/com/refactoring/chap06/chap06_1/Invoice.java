@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Invoice {
+public class Invoice implements Cloneable{
     protected List<Order> orders = new ArrayList<>();
     protected LocalDateTime dueDate;
 
@@ -20,5 +20,10 @@ public class Invoice {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    @Override
+    public Invoice clone() throws CloneNotSupportedException {
+        return (Invoice) super.clone();
     }
 }

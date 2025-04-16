@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  * */
 public class After {
 
-    public String printOwing(Invoice invoice) {
+    public String printOwing(Invoice invoice) throws Exception{
         int outstanding = 0;
         StringBuilder result = new StringBuilder();
 
@@ -21,13 +21,20 @@ public class After {
             outstanding += o.amount;
         }
 
-        // 마감일(dueDate) 을 기록한다.
-        LocalDateTime dateTime = LocalDateTime.parse("2025-05-11T16:40:34.844685");
-        invoice.dueDate = dateTime.plusDays(30);
+        Invoice addDueDateInvoice = recordDueDate(invoice);
 
-        printDetails(invoice, result, outstanding);
+        printDetails(addDueDateInvoice, result, outstanding);
 
         return result.toString();
+    }
+
+    private Invoice recordDueDate(Invoice invoice) throws Exception {
+        Invoice resultInvoice = invoice.clone();
+        // 마감일(dueDate) 을 기록한다.
+        LocalDateTime dateTime = LocalDateTime.parse("2025-05-11T16:40:34.844685");
+        resultInvoice.dueDate = dateTime.plusDays(30);
+
+        return resultInvoice;
     }
 
     private void printDetails(Invoice invoice, StringBuilder result, int outstanding) {
