@@ -26,7 +26,8 @@ class chap06_8Test {
         Before before = new Before();
         List<Reading> beforeList = before.readingsOutsideRange(station, 40,60);
         After after = new After();
-        List<Reading> afterList = after.readingsOutsideRange(station, 40,60);
+        NumberRange numberRange = new NumberRange(40,60);
+        List<Reading> afterList = after.readingsOutsideRange(station, numberRange);
 
         // then
         Assertions.assertEquals(beforeList, afterList);

@@ -5,10 +5,10 @@ import java.util.stream.Collectors;
 
 public class After {
 
-    public List<Reading> readingsOutsideRange(Station station, int min, int max) {
+    public List<Reading> readingsOutsideRange(Station station, NumberRange numberRange) {
         return station.readings
                 .stream()
-                .filter(r -> r.temp < min || r.temp > max)
+                .filter(r -> r.temp < numberRange.getMin() || r.temp > numberRange.getMax())
                 .collect(Collectors.toList());
     }
 }
