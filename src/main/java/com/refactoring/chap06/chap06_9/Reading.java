@@ -13,6 +13,22 @@ public class Reading {
         this.year = year;
     }
 
+    public double baseCharge() {
+        return baseRate(this.month, this.year) * this.quantity;
+    }
+
+    public double baseRate(int month, int year) {
+        return month * year;
+    }
+
+    public double taxThreshold(int year) {
+        return year;
+    }
+
+    public double taxableChargeFn(){
+        return Math.max(0, this.baseCharge() - taxThreshold(this.year));
+    }
+
     public Customer getCustomer() {
         return customer;
     }
