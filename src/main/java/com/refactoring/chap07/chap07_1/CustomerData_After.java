@@ -30,10 +30,10 @@ import java.util.Map;
  * getUasage(), setUsage()를 이용
  * 내부 구조 은닉 -> 외부에서 직접 접근 불가
  * */
-public class After_CustomerData {
+public class CustomerData_After {
     private Map<String, Customer> customers;
 
-    public After_CustomerData(Map<String, Customer> customers) {
+    public CustomerData_After(Map<String, Customer> customers) {
         this.customers = customers;
     }
 
@@ -79,8 +79,8 @@ public class After_CustomerData {
                 "2015", new HashMap<>(Map.of("1", 70, "2", 63))
         );
 
-        After_CustomerData.Customer customer = new After_CustomerData.Customer("Martin Fowler", "1920", usages);
-        After_CustomerData customerData = new After_CustomerData(Map.of("1920", customer));
+        CustomerData_After.Customer customer = new CustomerData_After.Customer("Martin Fowler", "1920", usages);
+        CustomerData_After customerData = new CustomerData_After(Map.of("1920", customer));
 
         // 외부에서는 메서드만 사용 가능
         int usageAmount = customerData.getUsage("1920", "2016", "1");  // 50

@@ -29,7 +29,7 @@ import java.util.Map;
  * 필드를 pulbic, getter / setter로 외부 노출 -> 외부코드에서 필드 직접 조작가능
  * */
 
-public class Before_CustomerData {
+public class CustomerData_Before {
     private Map<String, Customer> customers;
 
     public Map<String, Customer> getCustomers() {
