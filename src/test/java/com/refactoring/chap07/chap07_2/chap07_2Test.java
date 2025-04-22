@@ -1,13 +1,5 @@
-package com.refactoring.chap06.chap07_2;
+package com.refactoring.chap07.chap07_2;
 
-import com.refactoring.chap06.chap06_11.After;
-import com.refactoring.chap06.chap06_11.Before;
-import com.refactoring.chap06.chap06_11.Product;
-import com.refactoring.chap06.chap06_11.ShippingMethod;
-import com.refactoring.chap07.chap07_2.After_Course;
-import com.refactoring.chap07.chap07_2.After_Person;
-import com.refactoring.chap07.chap07_2.Before_Course;
-import com.refactoring.chap07.chap07_2.Before_Person;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
