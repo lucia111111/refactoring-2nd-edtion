@@ -5,8 +5,9 @@ public class After_Person {
     protected String name;
     protected TelephoneNumber telephoneNumber;
 
-    public After_Person() {
-        this.telephoneNumber = new TelephoneNumber();
+    public After_Person(String name, String areaCode, String number) {
+        this.name = name;
+        this.telephoneNumber = new TelephoneNumber(areaCode, number);
     }
 
     public String getName() {
