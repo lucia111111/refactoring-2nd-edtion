@@ -2,10 +2,9 @@ package com.refactoring.chap07.chap07_3;
 
 import java.util.List;
 
-/**
- * 캡슐화
- * */
 public class After_Order {
+
+    // Priority 객체를 사용하여 우선순위 캡슐화
     protected After_Priority priority;
 
     public After_Order(String priority) {
