@@ -26,8 +26,8 @@ import java.util.Map;
  * */
 
 /**
- * 필드는 private, 조작은 메서드를 통해서만
- * getUasage(), setUsage()를 이용
+ * 필드는 private, 조작은 메서드를 통해서만(getUasage(), setUsage()를 이용) -> 캡슐화
+ * 도메인 객체(Customer)를 통한 추상화 -> 데이터가 어떤 의미인지 명확
  * 내부 구조 은닉 -> 외부에서 직접 접근 불가
  * */
 public class CustomerData_After {

@@ -25,49 +25,23 @@ import java.util.Map;
  * */
 
 /**
- * getter / setter로만 된 순수 데이터 객체
- * 필드를 pulbic, getter / setter로 외부 노출 -> 외부코드에서 필드 직접 조작가능
+ * 외부 코드가 직접 Map 구조에 접근해 값 변경 가능
+ *  -> 구조가 외부에 노출되어 있음(캡슐화x)
  * */
 
 public class CustomerData_Before {
-    private Map<String, Customer> customers;
+    public Map<String, Map<String, Map<String, Integer>>> customerData;
 
-    public Map<String, Customer> getCustomers() {
-        return customers;
+    public CustomerData_Before(Map<String, Map<String, Map<String, Integer>>> customerData) {
+        this.customerData = customerData;
     }
 
-    public void setCustomers(Map<String, Customer> customers) {
-        this.customers = customers;
+    public int getUsage(String customerId, String year, String month) {
+        return customerData.get(customerId).get(year).get(month);
     }
 
-    public static class Customer {
-        private String name;
-        private String id;
-        private Map<String, Map<String, Integer>> usages; // usages[year][month]
-
-        public Map<String, Map<String, Integer>> getUsages() {
-            return usages;
-        }
-
-        public void setUsages(Map<String, Map<String, Integer>> usages) {
-            this.usages = usages;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
+    public void setUsage(String customerId, String year, String month, int amount) {
+        customerData.get(customerId).get(year).put(month, amount);
     }
 }
 
