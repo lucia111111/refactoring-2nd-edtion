@@ -24,6 +24,7 @@ class chap07_8Test {
         afterDepartment.setManager("aManager");
         afterPerson.setDepartment(afterDepartment);
 
+        // 불필요한 중개자 제거(getManager())
         assertTrue(afterPerson.getDepartment().getManager().equals("aManager"));
     }
 }
