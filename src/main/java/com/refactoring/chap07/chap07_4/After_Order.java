@@ -14,6 +14,8 @@ public class After_Order {
         return getBasePrice() * getDiscountFactor();
     }
 
+    // 메서드 분리 -> 여러곳에서 사용 가능
+    // 수정 시 메서드 하나만 수정하면 됨
     public int getBasePrice(){
         return quantity * item.price;
     }
