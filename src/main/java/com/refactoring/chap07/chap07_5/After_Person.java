@@ -3,11 +3,11 @@ package com.refactoring.chap07.chap07_5;
 
 public class After_Person {
     protected String name;
-    protected TelephoneNumber telephoneNumber;
+    protected After_TelephoneNumber telephoneNumber;
 
     public After_Person(String name, String areaCode, String number) {
         this.name = name;
-        this.telephoneNumber = new TelephoneNumber(areaCode, number);
+        this.telephoneNumber = new After_TelephoneNumber(areaCode, number);
     }
 
     public String getName() {

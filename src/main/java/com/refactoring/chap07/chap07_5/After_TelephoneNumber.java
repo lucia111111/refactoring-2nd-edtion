@@ -1,10 +1,10 @@
 package com.refactoring.chap07.chap07_5;
 
-public class TelephoneNumber {
+public class After_TelephoneNumber {
     protected String areaCode;
     protected String number;
 
-    public TelephoneNumber(String areaCode, String number) {
+    public After_TelephoneNumber(String areaCode, String number) {
         this.areaCode = areaCode;
         this.number = number;
     }
