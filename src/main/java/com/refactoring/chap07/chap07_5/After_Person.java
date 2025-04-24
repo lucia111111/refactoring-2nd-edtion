@@ -1,6 +1,10 @@
 package com.refactoring.chap07.chap07_5;
 
 
+/**
+ * Poerson이 TelephoneNumber객체에게 전화번호 관련 정보를 위임
+ *  -> 역할 분산 -> 응집도 향상
+ * */
 public class After_Person {
     protected String name;
     protected After_TelephoneNumber telephoneNumber;
